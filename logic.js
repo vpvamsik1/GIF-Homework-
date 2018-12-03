@@ -6,7 +6,7 @@
             var b = $("<button>");
             b.addClass("hero");
             b.addClass("btn btn-success");
-            b.attr("data-animal", heroes[i]);
+            b.attr("data-sp", heroes[i]);
             b.text(heroes[i]);
             $("#heroButtons").append(b);
             }
@@ -19,10 +19,11 @@
             var hero = $("#text1").val();
             heroes.push(hero);
             makeButtons();
+            $("#heroes").empty();
         });
 
         function showGifs() {
-            var hero = $(this).attr("data-animal");
+            var hero = $(this).attr("data-sp");
             var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + hero + "&api_key=dc6zaTOxFJmzC&limit=10";
 
             $.ajax({
@@ -59,29 +60,37 @@
                     heroDiv.append(heroImg);
 
                     $("#heroes").append(heroDiv);
+
+                    $(".hero").on("click", function(){
+                        $("#heroes").empty();
+            
+                    });
                     
 
                 }
-            $(".gif").on("click", '.imgGif', function() {
-            // alert("hello");
-            var state = $(this).attr("data-state");
-            // console.log(state);
-
-            if (state === "animate") {
-                $(this).attr("src", $(this).attr("data-still"));
-                $(this).attr("data-state", "still");
-            } else {
-                $(this).attr("src", $(this).attr("data-animate"));
-                $(this).attr("data-state", "animate");
-            }
-            console.log('hi');
-        });
+            click();
 
 
             })
 
         }
+       
 
-
+        function click() {
+            $(".gif").on("click", '.imgGif', function() {
+                // alert("hello");
+                var state = $(this).attr("data-state");
+                // console.log(state);
+    
+                if (state === "animate") {
+                    $(this).attr("src", $(this).attr("data-still"));
+                    $(this).attr("data-state", "still");
+                } else {
+                    $(this).attr("src", $(this).attr("data-animate"));
+                    $(this).attr("data-state", "animate");
+                }
+                console.log('hi');
+            });
+        }
 
         $(document).on("click", ".hero", showGifs);
